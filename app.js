@@ -8,8 +8,8 @@ var bodyParser = require('body-parser'); // 接收POST请求参数所用
 /**
  * 路由信息
  */
-// 后台路由
 var indexRouter = require('./routes/index'); // homePage 接口
+// 后台路由
 var usersRouter = require('./routes/users'); // 用户接口
 var loginRouter = require('./routes/admin/login'); // 后台登录接口
 
@@ -29,8 +29,8 @@ app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 /**
  * 接口信息
  */
-// 后台接口
 app.use('/', indexRouter);
+// 后台接口
 app.use('/users', usersRouter);
 app.use('/admin/login', loginRouter);
 

@@ -3,6 +3,6 @@
  * 数据库地址
  */
 
-var path = 'mongodb://localhost:27017/tamBlog';
+var path = 'mongodb://39.108.107.21:27017/test';
 
 module.exports = path;
