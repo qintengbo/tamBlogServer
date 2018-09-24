@@ -5,6 +5,7 @@ var path = require('../dbPath');
 
 /* 登录接口 */
 router.post('/', function(req, res, next) {
+  console.log(req);
 	var params = req.body;
 	MongoClient.connect(path, function(err, client) {
 	  if (err) throw err;
@@ -14,7 +15,8 @@ router.post('/', function(req, res, next) {
 	    if (response[0]['userName'] === params.userName && response[0]['password'] === params.password) {
         res.send({
           code: 0,
-          msg: '登录成功'
+          msg: '登录成功',
+          token: '12345'
         });
       } else {
 	      res.send({
