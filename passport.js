@@ -1,5 +1,6 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy; // token验证模块
+const jwt = require('jsonwebtoken');
 
 const User = require('./models/user');
 const config = require('./config');
@@ -14,13 +15,26 @@ module.exports = function(passport) {
         if (err) {
           return done(err);
         }
+        // 若数据库无法查询到token,则用户不存在
         if (!user) {
           return done(null, {
             code: -1,
             msg: '账号不存在，请先登录'
           });
+        } else {
+          // 判断token是否已过有效期
+          jwt.verify(token, config.secret, (err, decoded) => {
+            if (!decoded) {
+              return done(null, {
+                code: -2,
+                expired: true,
+                msg: '账号已过期，请重新登录'
+              });
+            } else {
+              return done(null, user);
+            }
+          });
         }
-        return done(null, user);
       });
     }
   ));

@@ -8,11 +8,8 @@ require('../../../passport')(passport);
 router.get('/userInfo', 
   passport.authenticate('bearer', { session: false }),
   (req, res) => {
-    if (req.user.code === -1) {
-      res.send({
-        code: req.user.code,
-        msg: req.user.msg
-      });
+    if (req.user.code && req.user.code !== 0) {
+      res.send(req.user);
     } else {
       res.send({
         code: 0,

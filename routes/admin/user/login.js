@@ -23,7 +23,7 @@ router.post('/login', (req, res, next) => {
           let token = jwt.sign({
             username: collection.username
           }, config.secret, {
-            expiresIn: 1000
+            expiresIn: '10s'
           });
           collection.token = token;
           collection.save((err) => {
