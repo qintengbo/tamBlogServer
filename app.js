@@ -6,16 +6,10 @@ const logger = require('morgan'); // 命令行log显示
 const bodyParser = require('body-parser'); // 接收POST请求参数所用
 const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
-const Strategy = require('passport-http-bearer').Strategy; // token验证模块
-const config = require('./config');
-const routes = require('./routeConfig');
+const config = require('./config'); // 全局配置
+const adminRoutes = require('./routes/adminRoutesConfig'); // 路由配置
 
 let port = process.env.PORT || 3000;
-
-/**
- * 路由信息
- */
-var indexRouter = require('./routes/index'); // homePage 接口
 
 const app = express();
 
@@ -31,15 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 app.use(passport.initialize()); // 初始化passport模块
 
-routes(app); // 路由引入
-
-/**
- * 接口信息
- */
-app.use('/', indexRouter);
-// 后台接口
-app.use('/users', usersRouter);
-app.use('/admin/login', loginRouter);
+adminRoutes(app); // 后台路由引入
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
