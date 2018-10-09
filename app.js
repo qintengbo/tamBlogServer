@@ -9,6 +9,7 @@ const passport = require('passport'); // 用户认证模块
 const config = require('./config'); // 全局配置
 const adminRoutes = require('./routes/adminRoutesConfig'); // 路由配置
 
+// 端口设置
 let port = process.env.PORT || 3000;
 
 const app = express();
