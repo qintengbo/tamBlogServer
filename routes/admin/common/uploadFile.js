@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer  = require('multer');
+const multer = require('multer');
 const bytes = require('bytes');
 
 // 设置文件保存位置
@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
+// 文件上传设置
 const upload = multer({ 
   storage: storage,
   limits: {
@@ -23,18 +24,27 @@ const upload = multer({
   //   let fileTypeValid = '|jpg|png|jpeg|gif|'.indexOf(type) !== -1;
   //   callback(null, !!fileTypeValid);
   // }
-});
+}).single('file');
 
 // 上传文件接口
-router.post('/uploadFile', upload.single('file'), (req, res, next) => {
-  console.log(req.file)
-  res.send({
-    code: 0,
-    msg: '上传成功',
-    data: {
-      imgUrl: req.file.path
+router.post('/uploadFile', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.send({
+        code: -1,
+        msg: '文件大小超过4MB'
+      });
+    } else {
+      console.log(req.file)
+      res.send({
+        code: 0,
+        msg: '上传成功',
+        data: {
+          imgUrl: req.file.path
+        }
+      });
     }
-  })
+  });
 });
 
 module.exports = router;
