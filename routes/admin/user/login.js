@@ -23,7 +23,7 @@ router.post('/login', (req, res, next) => {
           let token = jwt.sign({
             username: collection.username
           }, config.secret, {
-            expiresIn: '12h'
+            expiresIn: '12h' // token过期时间为12h
           });
           collection.token = token;
           collection.save((err) => {

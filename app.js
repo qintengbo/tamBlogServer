@@ -22,7 +22,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); // 静态资源托管目录
 app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 app.use(passport.initialize()); // 初始化passport模块
 
