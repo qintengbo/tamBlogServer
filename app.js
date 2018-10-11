@@ -6,7 +6,7 @@ const logger = require('morgan'); // 命令行log显示
 const bodyParser = require('body-parser'); // 接收POST请求参数所用
 const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
-const config = require('./config'); // 全局配置
+const config = require('./config/config'); // 全局配置
 const adminRoutes = require('./routes/adminRoutesConfig'); // 路由配置
 
 // 端口设置

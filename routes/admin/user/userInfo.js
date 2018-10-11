@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-require('../../../passport')(passport);
+require('../../../config/passport')(passport);
 
 // 获取用户信息
 router.get('/userInfo', 

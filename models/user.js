@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
+// 用户集合字段
 const UserSchema = new Schema({
   username: {
     type: String,
-    require: true
+    required: true
   },
   password: {
     type: String,
-    require: true
+    required: true
   },
   token: String
 });

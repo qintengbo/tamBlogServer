@@ -2,8 +2,8 @@ const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy; // token验证模块
 const jwt = require('jsonwebtoken');
 
-const User = require('./models/user');
-const config = require('./config');
+const User = require('../models/user');
+const config = require('../config/config');
 
 // 验证token是否和数据库的token匹配
 module.exports = function(passport) {
