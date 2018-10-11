@@ -19,9 +19,17 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  status: { // 状态： 0-未发布，1-发布，默认未发布
+  status: { // 状态： 0-未发布，1-发布
     type: Number,
     required: true
+  },
+  laudNum: { // 点赞数，默认为0
+    type: Number,
+    default: 0
+  },
+  date: { // 时间
+    type: Date,
+    default: Date.now
   }
 });
 

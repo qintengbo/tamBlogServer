@@ -13,7 +13,7 @@ router.post('/addArticle', (req, res) => {
     }
     res.send({
       code: 0,
-      msg: '成功'
+      msg: '提交表单成功'
     });
   });
 });

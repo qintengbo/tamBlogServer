@@ -4,11 +4,11 @@ const bcrypt = require('bcryptjs');
 
 // 用户集合字段
 const UserSchema = new Schema({
-  username: {
+  username: { // 用户名
     type: String,
     required: true
   },
-  password: {
+  password: { // 密码
     type: String,
     required: true
   },
