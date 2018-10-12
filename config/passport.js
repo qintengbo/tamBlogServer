@@ -11,11 +11,7 @@ module.exports = function(passport) {
     function(token, done) {
       User.findOne({ token: token }, function(err, user) {
         if (err) {
-          return done({
-            code: -1,
-            msg: 'token不存在',
-            err: err
-          });
+          return done(err);
         }
         // 若数据库无法查询到token,则用户不存在
         if (!user) {

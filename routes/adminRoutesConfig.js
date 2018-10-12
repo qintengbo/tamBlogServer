@@ -12,8 +12,18 @@ const routes = [
 
 module.exports = (app) => {
   // 全局路由设置，验证token有效性，登录和注册除外
-  app.all('/admin/*', passport.authenticate('bearer', { session: false }), (req, res, next) => {
-    console.log(req)
+  app.all('/admin/*', (req, res, next) => {
+    if (req.params['0'] === 'login' || req.params['0'] === 'signup') {
+      next();
+    } else {
+      passport.authenticate('bearer', { session: false }, (err, user, info) => {
+        if (user.code && user.code !== 0) {
+          return res.send(user);
+        } 
+        req.user = user; // 向req中添加user字段，方便下一个中间件调用
+        next();
+      })(req, res, next);
+    }
   });
 
   app.get('/', (req, res, next) => {
