@@ -1,3 +1,6 @@
+const passport = require('passport');
+require('../config/passport')(passport);
+
 const routes = [
   require('./admin/user/login'), // 后台登录接口
   require('./admin/user/register'), // 注册接口
@@ -8,10 +11,15 @@ const routes = [
 ];
 
 module.exports = (app) => {
+  // 全局路由设置，验证token有效性，登录和注册除外
+  app.all('/admin/*', passport.authenticate('bearer', { session: false }), (req, res, next) => {
+    console.log(req)
+  });
+
   app.get('/', (req, res, next) => {
     res.render('index', { title: 'TamBlog' });
   });
 
-  // 在所有admin路由前加'/admin'
+  // 在所有后台路由前加'/admin'
   app.use('/admin', ...routes);
 };

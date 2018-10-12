@@ -11,12 +11,16 @@ module.exports = function(passport) {
     function(token, done) {
       User.findOne({ token: token }, function(err, user) {
         if (err) {
-          return done(err);
+          return done({
+            code: -1,
+            msg: 'token不存在',
+            err: err
+          });
         }
         // 若数据库无法查询到token,则用户不存在
         if (!user) {
           return done(null, {
-            code: -1,
+            code: -2,
             msg: '账号不存在，请先登录'
           });
         } else {
@@ -24,7 +28,7 @@ module.exports = function(passport) {
           jwt.verify(token, config.secret, (err, decoded) => {
             if (!decoded) {
               return done(null, {
-                code: -2,
+                code: -3,
                 expired: true,
                 msg: '账号已过期，请重新登录'
               });

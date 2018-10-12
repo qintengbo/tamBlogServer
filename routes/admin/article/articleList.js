@@ -6,7 +6,6 @@ const Article = require('../../../models/article');
 router.get('/articleList', (req, res) => {
   Article.find((err, collection) => {
     if (err) throw err;
-    console.log(collection);
     res.send({
       code: 0,
       msg: '获取文章列表成功',
