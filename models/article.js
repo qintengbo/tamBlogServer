@@ -19,7 +19,7 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  status: { // 状态： 0-未发布，1-发布
+  status: { // 状态： 2-未发布，1-已发布
     type: Number,
     required: true
   },
