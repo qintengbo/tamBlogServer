@@ -4,7 +4,6 @@ const Article = require('../../../models/article');
 
 // 查询文章列表接口
 router.get('/articleList', (req, res) => {
-  console.log(req.query)
   // 查询数据库条件
   let params = {
     title: { $regex: req.query.keyWord },
@@ -16,16 +15,27 @@ router.get('/articleList', (req, res) => {
   if (req.query.date !== '') {
     params.date = { $gte: req.query.date[0], $lte: req.query.date[1] };
   }
-  Article.find(params, null, { sort: { _id: -1 } }, (err, collection) => {
+  // 查询数据总条数
+  let total;
+  Article.find(params).count((err, count) => {
     if (err) throw err;
-    res.send({
-      code: 0,
-      msg: '获取文章列表成功',
-      data: {
-        list: collection,
-        total: collection.length
-      }
-    })
+    total = count;
+    // 查询时按时间先后顺序排序
+    Article.find(params, null, {
+      sort: { date: -1 }, 
+      skip: (Number(req.query.page) - 1) * Number(req.query.size), 
+      limit: Number(req.query.size) 
+    }, (err, collection) => {
+      if (err) throw err;
+      res.send({
+        code: 0,
+        msg: '获取文章列表成功',
+        data: {
+          list: collection,
+          total: total
+        }
+      });
+    });
   });
 });
 

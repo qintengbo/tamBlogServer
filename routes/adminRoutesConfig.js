@@ -8,6 +8,8 @@ const routes = [
   require('./admin/common/uploadFile'), // 上传文件接口
   require('./admin/article/addArticle'), // 保存文章接口
   require('./admin/article/articleList'), // 查询文章列表接口
+  require('./admin/article/updateArticle'), // 更新文章状态接口
+  require('./admin/article/deleteArticle'), // 删除文章接口
 ];
 
 module.exports = (app) => {
