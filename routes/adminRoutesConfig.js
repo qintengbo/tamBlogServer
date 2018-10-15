@@ -10,6 +10,8 @@ const routes = [
   require('./admin/article/articleList'), // 查询文章列表接口
   require('./admin/article/updateArticle'), // 更新文章状态接口
   require('./admin/article/deleteArticle'), // 删除文章接口
+  require('./admin/classification/addClassification'), // 新增分类接口
+  require('./admin/classification/classificationList'), // 查询分类列表接口
 ];
 
 module.exports = (app) => {
