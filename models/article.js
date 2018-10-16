@@ -8,11 +8,13 @@ const ArticleSchema = new Schema({
     required: true
   },
   classification: { // 分类
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'classifications',
     required: true
   },
   tag: { // 标签
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'tags',
     required: true
   },
   content: { // 内容
