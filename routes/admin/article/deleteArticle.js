@@ -12,12 +12,12 @@ router.delete('/deleteArticle', (req, res) => {
         if (err) {
           res.send({
             code: -1,
-            msg: '删除失败'
+            msg: '删除文章失败'
           });
         } else {
           res.send({
             code: 0,
-            msg: '删除成功'
+            msg: '删除文章成功'
           });
         }
       });
