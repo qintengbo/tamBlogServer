@@ -14,6 +14,10 @@ const ClassificationSchema = new Schema({
   date: { // 时间
     type: Date,
     default: Date.now
+  },
+  articleNum: { // 文章数
+    type: Number,
+    default: 0
   }
 });
 

@@ -4,7 +4,7 @@ const Classification = require('../../../models/classification');
 
 // 查询分类列表接口
 router.get('/classificationList', (req, res) => {
-  Classification.find((err, collection) => {
+  Classification.find({ name: { $regex: req.query.keyWord } }, null, { sort: { date: -1 } }, (err, collection) => {
     if (err) throw err;
     res.send({
       code: 0,

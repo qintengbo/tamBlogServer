@@ -12,6 +12,7 @@ const routes = [
   require('./admin/article/deleteArticle'), // 删除文章接口
   require('./admin/classification/addClassification'), // 新增分类接口
   require('./admin/classification/classificationList'), // 查询分类列表接口
+  require('./admin/classification/detailClassification'), // 编辑分类接口
   require('./admin/tag/addTag'), // 新增标签接口
   require('./admin/tag/tagList'), // 查询标签列表接口
 ];
