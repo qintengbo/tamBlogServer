@@ -6,8 +6,8 @@ module.exports = {
   serverUrl:'服务器地址',
   qiniu_config:{
     //需要填写你的 Access Key 和 Secret Key
-    accessKey:'accessKey',
-    secretKey:'secretKey',
+    accessKey:'your accessKey',
+    secretKey:'your secretKey',
     bucket: 'bucket',
     origin: '',
   }
