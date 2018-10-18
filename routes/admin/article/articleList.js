@@ -8,7 +8,7 @@ router.get('/articleList', (req, res) => {
   let params = {
     title: { $regex: req.query.keyWord },
     classification: req.query.classification === 'null' ? { $regex: '' } : req.query.classification,
-    tag: req.query.tag === 'null' ? { $regex: '' } : req.query.tag,
+    // tag: req.query.tag === 'null' ? { $regex: '' } : req.query.tag,
     status: req.query.status === '0' ? { $gt: 0 } : Number(req.query.status),
   };
   // 判断是否有日期范围查询

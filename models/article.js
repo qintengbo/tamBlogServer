@@ -13,7 +13,7 @@ const ArticleSchema = new Schema({
     required: true
   },
   tag: { // 标签
-    type: Schema.Types.ObjectId,
+    type: [Schema.Types.ObjectId],
     ref: 'tags',
     required: true
   },
