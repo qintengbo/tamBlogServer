@@ -13,8 +13,11 @@ const routes = [
   require('./admin/classification/addClassification'), // 新增分类接口
   require('./admin/classification/classificationList'), // 查询分类列表接口
   require('./admin/classification/detailClassification'), // 编辑分类接口
+  require('./admin/classification/deleteClassification'), // 删除分类接口
   require('./admin/tag/addTag'), // 新增标签接口
   require('./admin/tag/tagList'), // 查询标签列表接口
+  require('./admin/tag/detailTag'), // 编辑标签接口
+  require('./admin/tag/deleteTag'), // 删除标签接口
 ];
 
 module.exports = (app) => {

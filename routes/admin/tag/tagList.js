@@ -4,7 +4,7 @@ const Tag = require('../../../models/tag');
 
 // 查询标签列表接口
 router.get('/tagList', (req, res) => {
-  Tag.find((err, collection) => {
+  Tag.find({ name: { $regex: req.query.keyWord } }, null, { sort: { date: -1 } }, (err, collection) => {
     if (err) throw err;
     res.send({
       code: 0,
