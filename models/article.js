@@ -9,14 +9,14 @@ const ArticleSchema = new Schema({
   },
   classification: { // 分类
     type: Schema.Types.ObjectId,
-    ref: 'classifications',
+    ref: 'Classification',
     required: true
   },
-  tag: { // 标签
-    type: [Schema.Types.ObjectId],
-    ref: 'tags',
+  tag: [{ // 标签
+    type: Schema.Types.ObjectId,
+    ref: 'Tag',
     required: true
-  },
+  }],
   content: { // 内容
     type: String,
     required: true

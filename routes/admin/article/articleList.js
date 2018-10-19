@@ -7,13 +7,19 @@ router.get('/articleList', (req, res) => {
   // 查询数据库条件
   let params = {
     title: { $regex: req.query.keyWord },
-    classification: req.query.classification === 'null' ? { $regex: '' } : req.query.classification,
-    // tag: req.query.tag === 'null' ? { $regex: '' } : req.query.tag,
     status: req.query.status === '0' ? { $gt: 0 } : Number(req.query.status),
   };
   // 判断是否有日期范围查询
   if (req.query.date !== '') {
     params.date = { $gte: req.query.date[0], $lte: req.query.date[1] };
+  }
+  // 判断是否有分类查询
+  if (req.query.classification !== 'null') {
+    params.classification = req.query.classification;
+  }
+  // 判断是否有标签查询
+  if (req.query.tag !== 'null') {
+    params.tag = req.query.tag;
   }
   // 查询数据总条数
   let total;
@@ -24,16 +30,24 @@ router.get('/articleList', (req, res) => {
     Article.find(params, null, {
       sort: { date: -1 }, 
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
-      limit: Number(req.query.size) 
+      limit: Number(req.query.size),
+      select: '-content'
     }, (err, collection) => {
       if (err) throw err;
-      res.send({
-        code: 0,
-        msg: '获取文章列表成功',
-        data: {
-          list: collection,
-          total: total
-        }
+      let opts = [
+        { path: 'classification', select: 'name' },
+        { path: 'tag', select: 'name' }
+      ];
+      Article.populate(collection, opts, (err, doc) => {
+        if (err) throw err;
+        res.send({
+          code: 0,
+          msg: '获取文章列表成功',
+          data: {
+            list: doc,
+            total: total
+          }
+        });
       });
     });
   });
