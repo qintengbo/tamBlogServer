@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
 const multer = require('multer');
 const bytes = require('bytes');
+const options = require('../../../config/qnyConfig').options;
+const uploadFile = require('../../../config/qnUploader');
 
 // 设置文件保存位置
 const storage = multer.diskStorage({
@@ -29,13 +32,25 @@ router.post('/uploadFile', (req, res) => {
         msg: '文件大小超过4MB'
       });
     } else {
-      // let type = req.file.mimetype.slice(req.file.mimetype.lastIndexOf('/') + 1);
-      // console.log('jpg,png,jpeg,gif'.indexOf(type) !== -1)
-      res.send({
-        code: 0,
-        msg: '上传成功',
-        data: {
-          imgUrl: 'http://localhost:3000/tmp/' + req.file.filename
+      options.scope = options.scope + ':' + req.file.originalname;
+      options.deadline += Date.now();
+      // 上传文件到七牛云
+      uploadFile(options, req.file.originalname, req.file.path, (err, body, info) => {
+        if (err) {
+          res.send({
+            code: -2,
+            msg: '上传文件到七牛云失败'
+          });
+        } else {
+          // 上传成功则删除本地文件
+          fs.unlinkSync(req.file.path);
+          res.send({
+            code: 0,
+            msg: '上传文件成功',
+            data: {
+              imgUrl: 'http://pgvyhqufg.bkt.clouddn.com/' + body.key
+            }
+          });
         }
       });
     }
