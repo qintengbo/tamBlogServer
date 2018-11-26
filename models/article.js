@@ -25,11 +25,15 @@ const ArticleSchema = new Schema({
     type: Number,
     required: true
   },
-  laudNum: { // 点赞数，默认为0
+  laudNum: { // 点赞数
     type: Number,
     default: 0
   },
-  date: { // 时间
+  createDate: { // 创建时间
+    type: Date,
+    default: Date.now
+  },
+  updateDate: { // 更新时间
     type: Date,
     default: Date.now
   }

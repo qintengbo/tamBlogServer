@@ -10,7 +10,7 @@ router.put('/detailArticle', (req, res) => {
     tag: req.body.tag,
     content: req.body.content,
     status: req.body.status,
-    $currentDate: { date: true }
+    $currentDate: { updateDate: true }
   }, (err, raw) => {
     if (err) throw err;
     if (raw.ok === 1) {

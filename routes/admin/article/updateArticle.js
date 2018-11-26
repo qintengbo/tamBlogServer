@@ -5,7 +5,7 @@ const Article = require('../../../models/article');
 // 更新文章状态接口
 router.put('/updateArticle', (req, res) => {
   Article.updateOne({ _id: req.body.id }, 
-  { status: req.body.status, $currentDate: { date: true } }, (err, raw) => {
+  { status: req.body.status, $currentDate: { updateDate: true } }, (err, raw) => {
     if (err) throw err;
     if (raw.ok === 1) {
       res.send({

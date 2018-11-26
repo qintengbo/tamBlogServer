@@ -11,7 +11,7 @@ router.get('/articleList', (req, res) => {
   };
   // 判断是否有日期范围查询
   if (req.query.date !== '') {
-    params.date = { $gte: req.query.date[0], $lte: req.query.date[1] };
+    params.updateDate = { $gte: req.query.date[0], $lte: req.query.date[1] };
   }
   // 判断是否有分类查询
   if (req.query.classification !== 'null') {
@@ -28,7 +28,7 @@ router.get('/articleList', (req, res) => {
     total = count;
     // 查询时按时间先后顺序排序
     Article.find(params, null, {
-      sort: { date: -1 }, 
+      sort: { updateDate: -1 }, 
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size),
       select: '-content'
