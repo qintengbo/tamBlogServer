@@ -32,10 +32,11 @@ router.post('/uploadFile', (req, res) => {
         msg: '文件大小超过4MB'
       });
     } else {
-      options.scope = options.scope + ':' + req.file.originalname;
-      options.deadline += Date.now();
+      let params = {};
+      params.scope = options.scope + ':' + req.file.originalname;
+      params.deadline = options.deadline + Date.now();
       // 上传文件到七牛云
-      uploadFile(options, req.file.originalname, req.file.path, (err, body, info) => {
+      uploadFile(params, req.file.originalname, req.file.path, (err, body, info) => {
         if (err) {
           res.send({
             code: -2,
@@ -48,7 +49,7 @@ router.post('/uploadFile', (req, res) => {
             code: 0,
             msg: '上传文件成功',
             data: {
-              imgUrl: 'http://pgvyhqufg.bkt.clouddn.com/' + body.key
+              imgUrl: 'http://cdn.qintengbo.com/' + body.key
             }
           });
         }
