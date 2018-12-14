@@ -8,12 +8,25 @@ router.get('/tagList', (req, res) => {
   // 查询文章集合中标签引用次数
   Article.aggregate([
     { $unwind: '$tag' },
-    { $group: { _id: '$tag', count: { $sum: 1 } } }
+    { $group: { _id: '$tag', countDocuments: { $sum: 1 } } }
   ]).then(doc => {
-    doc.forEach(item => {
-      // 更新文章数
-      Tag.updateOne({ _id: item._id }, { articleNum: item.count }, (err, raw) => {
-        if (err) throw err;
+    let arr = [];
+    Tag.find(null, null, { select: '_id' }, (err, collection) => {
+      if (err) throw err;
+      collection.forEach(val => {
+        let num = doc.findIndex(n => n._id.toString() === val._id.toString());
+        if (num !== -1) {
+          arr.push(doc[num]);
+        } else {
+          // 文章未使用的标签文章数要更新为0
+          arr.push({ _id: val._id, countDocuments: 0 });
+        }
+      });
+      arr.forEach(item => {
+        // 更新文章数
+        Tag.updateOne({ _id: item._id }, { articleNum: item.countDocuments }, (err, raw) => {
+          if (err) throw err;
+        });
       });
     });
   });

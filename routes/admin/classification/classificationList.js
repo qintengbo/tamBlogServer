@@ -7,13 +7,26 @@ const Classification = require('../../../models/classification');
 router.get('/classificationList', (req, res) => {
   // 查询文章集合中分类引用次数
   Article.aggregate([
-    { $group: { _id: '$classification', count: { $sum: 1 } } }
+    { $group: { _id: '$classification', countDocuments: { $sum: 1 } } }
   ]).then(doc => {
-    doc.forEach(item => {
-      // 更新文章数
-      Classification.updateOne({ _id: item._id }, { articleNum: item.count }, (err, raw) => {
-        if (err) throw err;
+    let arr = [];
+    Classification.find(null, null, { select: '_id'}, (err, collection) => {
+      if (err) throw err;
+      collection.forEach(val => {
+        let num = doc.findIndex(n => n._id.toString() === val._id.toString());
+        if (num !== -1) {
+          arr.push(doc[num]);
+        } else {
+          // 文章未使用的分类文章数要更新为0
+          arr.push({ _id: val._id, countDocuments: 0 });
+        }
       });
+      arr.forEach(item => {
+        // 更新文章数
+        Classification.updateOne({ _id: item._id }, { articleNum: item.countDocuments }, (err, raw) => {
+          if (err) throw err;
+        });
+      }); 
     });
   });
   Classification.find({ name: { $regex: req.query.keyWord } }, null, { sort: { date: -1 } }, (err, collection) => {
