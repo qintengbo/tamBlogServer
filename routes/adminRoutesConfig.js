@@ -20,6 +20,7 @@ const routes = [
   require('./admin/tag/tagList'), // 查询标签列表接口
   require('./admin/tag/detailTag'), // 编辑标签接口
   require('./admin/tag/deleteTag'), // 删除标签接口
+  require('./admin/banner/addBanner'), // 新增轮播图接口
 ];
 
 module.exports = (app) => {
