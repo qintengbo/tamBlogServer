@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     cb(null, 'public/tmp/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, file.originalname);
   }
 });
 // 文件上传设置
