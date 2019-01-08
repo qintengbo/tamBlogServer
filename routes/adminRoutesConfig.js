@@ -21,6 +21,10 @@ const routes = [
   require('./admin/tag/detailTag'), // 编辑标签接口
   require('./admin/tag/deleteTag'), // 删除标签接口
   require('./admin/banner/addBanner'), // 新增轮播图接口
+  require('./admin/banner/bannerList'), // 查询轮播图列表接口
+  require('./admin/banner/updateBanner'), // 更新轮播图状态接口
+  require('./admin/banner/deleteBanner'), // 删除轮播图接口
+  require('./admin/banner/detailBanner'), // 编辑轮播图接口
 ];
 
 module.exports = (app) => {

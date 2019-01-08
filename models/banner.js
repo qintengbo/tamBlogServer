@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // 轮播图集合字段
 const BannerSchema = new Schema({
-  title: { // 主标题
+  mainTitle: { // 主标题
     type: String,
     require: true
   },
@@ -15,11 +15,15 @@ const BannerSchema = new Schema({
     type: String,
     require: true
   },
+  order: {
+    type: Number,
+    require: true
+  },
   status: { // 状态 1-已上播，2-未上播
     type: Number, 
     require: true
   },
-  createDate: { // 创建时间
+  updateDate: { // 更新时间
     type: Date,
     default: Date.now
   }
