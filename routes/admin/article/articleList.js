@@ -21,6 +21,17 @@ router.get('/articleList', (req, res) => {
   if (req.query.tag !== 'null') {
     params.tag = req.query.tag;
   }
+  // 判断是否有排序
+  let sort = {};
+  if (req.query.sort !== 'null') {
+    if (req.query.sort === 'ascend') {
+      sort = { laudNum: 1 };
+    } else if (req.query.sort === 'descend') {
+      sort = { laudNum: -1 };
+    }
+  } else {
+    sort = { updateDate: -1 };
+  }
   // 查询数据总条数
   let total;
   Article.find(params).count((err, count) => {
@@ -28,7 +39,7 @@ router.get('/articleList', (req, res) => {
     total = count;
     // 查询时按时间先后顺序排序
     Article.find(params, null, {
-      sort: { updateDate: -1 }, 
+      sort: sort, 
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size),
       select: '-content'
