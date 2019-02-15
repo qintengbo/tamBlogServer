@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Banner = require('../../../models/banner');
 
+// 轮播图列表接口
 router.get('/bannerList', (req, res) => {
   Banner.find(
     { status: req.query.status === 'null' ? { $gt: 0 } : Number(req.query.status) },

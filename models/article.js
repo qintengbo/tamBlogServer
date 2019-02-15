@@ -36,6 +36,14 @@ const ArticleSchema = new Schema({
   updateDate: { // 更新时间
     type: Date,
     default: Date.now
+  },
+  coverImg: { // 封面图
+    type: String,
+    required: true
+  },
+  lead: { // 导语
+    type: String,
+    required: true
   }
 });
 

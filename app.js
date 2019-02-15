@@ -7,7 +7,8 @@ const bodyParser = require('body-parser'); // 接收POST请求参数所用
 const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
 const config = require('./config/config'); // 全局配置
-const adminRoutes = require('./routes/adminRoutesConfig'); // 路由配置
+const adminRoutes = require('./routes/adminRoutesConfig'); // 后台路由配置
+const frontRoutes = require('./routes/frontRoutesConfig'); // 前台路由配置
 
 // 端口设置
 let port = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 app.use(passport.initialize()); // 初始化passport模块
 
 adminRoutes(app); // 后台路由引入
+frontRoutes(app); // 前台路由引入
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
