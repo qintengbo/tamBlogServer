@@ -9,7 +9,8 @@ const uploadFile = require('../../../config/qnUploader');
 // 设置文件保存位置
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/tmp/');
+    cb(null, 'public/tmp/'); // Windows端
+    // cb(null, '/opt/tamBlogServer/public/tmp/');  // Luinx端
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -19,7 +20,8 @@ const storage = multer.diskStorage({
 const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: bytes('4MB') // 限制文件在4MB以内
+    fileSize: bytes('4MB'), // 限制文件在4MB以内
+    files: 2
   }
 }).single('file');
 
