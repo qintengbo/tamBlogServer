@@ -25,9 +25,9 @@ router.get('/articleList', (req, res) => {
   let sort = {};
   if (req.query.sort !== 'null') {
     if (req.query.sort === 'ascend') {
-      sort = { laudNum: 1 };
+      sort = { readNum: 1 };
     } else if (req.query.sort === 'descend') {
-      sort = { laudNum: -1 };
+      sort = { readNum: -1 };
     }
   } else {
     sort = { updateDate: -1 };

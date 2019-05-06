@@ -25,7 +25,7 @@ const ArticleSchema = new Schema({
     type: Number,
     required: true
   },
-  laudNum: { // 点赞数
+  readNum: { // 阅读数
     type: Number,
     default: 0
   },
