@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Banner = require('../../models/banner');
 
-// 已上播轮播图列表接口
+// 已上线播轮播图列表接口
 router.get('/banner', (req, res) => {
   Banner.find({ status: 1 }, null, { sort: { order: 1 } }, (err, collection) => {
     if (err) throw err;
