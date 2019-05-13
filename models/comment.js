@@ -12,27 +12,28 @@ const CommentSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  commenterName: { // 评论者名称
-    type: String,
+  commenter: { // 评论者
+    type: Schema.Types.ObjectId,
+    ref: 'Visitor',
     required: true
-  },
-  commenterAvatar: { // 评论者头像
-    type: String,
-    default: ''
   },
   content: { // 评论内容
     type: String,
-    required: true
+    required: true,
+    maxlength: 100
   },
-  email: { // 评论者邮箱
-    type: String,
-    required: true
-  },
-  show: {
+  show: { // 是否展示
     type: Boolean,
     default: true
   },
-  reply: [] // 子评论集合
+  beCommenter: { // 被评论者
+    type: Schema.Types.ObjectId,
+    ref: 'Visitor'
+  },
+  reply: [{ // 子评论
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 });
 
 module.exports = mongoose.model('Comment', CommentSchema);
