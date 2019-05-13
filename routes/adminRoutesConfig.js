@@ -28,11 +28,17 @@ const routes = [
 ];
 
 module.exports = (app) => {
-  // 全局路由设置，验证token有效性，登录和注册除外
+  // 全局路由设置，验证token有效性，登录除外
   app.all('/admin/*', (req, res, next) => {
-    if (req.params['0'] === 'login' || req.params['0'] === 'signup') {
+    if (req.params['0'] === 'login') {
       next();
     } else {
+      if (!req.headers.authorization) {
+        return res.send({
+          code: -2,
+          msg: '请先登录'
+        });
+      }
       passport.authenticate('bearer', { session: false }, (err, user, info) => {
         if (user.code && user.code !== 0) {
           return res.send(user);
