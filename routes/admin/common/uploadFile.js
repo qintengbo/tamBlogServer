@@ -5,12 +5,12 @@ const multer = require('multer');
 const bytes = require('bytes');
 const options = require('../../../config/qnyConfig').options;
 const uploadFile = require('../../../config/qnUploader');
+const path = require('path');
 
 // 设置文件保存位置
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/tmp/'); // Windows端
-    // cb(null, '/opt/tamBlogServer/public/tmp/');  // Luinx端
+    cb(null, path.join(__dirname, '../../../public/tmp'));
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
