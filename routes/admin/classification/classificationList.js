@@ -10,7 +10,7 @@ router.get('/classificationList', (req, res) => {
     { $group: { _id: '$classification', countDocuments: { $sum: 1 } } }
   ]).then(doc => {
     let arr = [];
-    Classification.find(null, null, { select: '_id'}, (err, collection) => {
+    Classification.find(null, null, { select: '_id' }, (err, collection) => {
       if (err) throw err;
       collection.forEach(val => {
         let num = doc.findIndex(n => n._id.toString() === val._id.toString());
@@ -29,7 +29,8 @@ router.get('/classificationList', (req, res) => {
       }); 
     });
   });
-  Classification.find({ name: { $regex: req.query.keyWord } }, null, { sort: { date: -1 } }, (err, collection) => {
+  const keyWord = req.query.keyWord || '';
+  Classification.find({ name: { $regex: keyWord } }, null, { sort: { date: -1 } }, (err, collection) => {
     if (err) throw err;
     res.send({
       code: 0,

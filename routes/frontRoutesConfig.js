@@ -2,9 +2,10 @@ const passport = require('passport');
 require('../config/passport')(passport);
 
 const routes = [
-  require('./front/banner/bannerList.js'), // 轮播图列表接口
-  require('./front/article/articleList.js'), // 文章列表接口
-  require('./front/comment/addComment.js'), // 新增评论接口
+  require('./front/banner/bannerList'), // 轮播图列表接口
+  require('./front/article/articleList'), // 文章列表接口
+  require('./front/comment/addComment'), // 新增评论接口
+  require('./front/classification/classificationList'), // 查询分类列表接口
 ];
 
 module.exports = (app) => {
