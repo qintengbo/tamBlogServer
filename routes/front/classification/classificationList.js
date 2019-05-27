@@ -12,19 +12,22 @@ router.get('/classificationList', (req, res) => {
   ]).then(doc => {
     Classification.find(null, null, { sort: { date: -1 } }, (err, collection) => {
       if (err) throw err;
+      let total = 0;
+      let arr = [];
       collection.forEach(val => {
         let num = doc.findIndex(n => n._id.toString() === val._id.toString());
         if (num !== -1) {
           val.articleNum = doc[num].countDocuments;
-        } else {
-          val.articleNum = 0;
+          total += doc[num].countDocuments;
+          arr.push(val);
         }
       });
+      arr.unshift({ _id: null, name: '全部', articleNum: total });
       res.send({
         code: 0,
         msg: '获取分类列表成功',
         data: {
-          list: collection
+          list: arr
         }
       });
     });
