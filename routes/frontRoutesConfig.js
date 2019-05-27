@@ -6,6 +6,7 @@ const routes = [
   require('./front/article/articleList'), // 文章列表接口
   require('./front/comment/addComment'), // 新增评论接口
   require('./front/classification/classificationList'), // 查询分类列表接口
+  require('./admin/article/articleInfo'), // 文章详情接口
 ];
 
 module.exports = (app) => {
