@@ -12,36 +12,43 @@ router.get('/articleInfo', (req, res) => {
         msg: '查询文章详细信息失败'
       });
     } else {
-      // 查询上一篇和下一篇文章id
-      const preId = new Promise((resolve, reject) => {
-        Article.find({ updateDate: { $gt: collection.updateDate } }, '_id', { sort: { updateDate: -1 }, limit: 1 }, (err, preDoc) => {
-          if (err) reject(err);
-          let id = '';
-          if (preDoc.length > 0) {
-            id = preDoc[0]._id;
-          }
-          resolve(id);
+      let opts = [
+        { path: 'classification', select: 'name' },
+        { path: 'tag', select: 'name' }
+      ];
+      Article.populate(collection, opts, (err, doc) => {
+        if (err) throw err;
+        // 查询上一篇和下一篇文章id
+        const preId = new Promise((resolve, reject) => {
+          Article.find({ updateDate: { $gt: doc.updateDate } }, '_id', { sort: { updateDate: 1 }, limit: 1 }, (err, preDoc) => {
+            if (err) reject(err);
+            let id = '';
+            if (preDoc.length > 0) {
+              id = preDoc[0]._id;
+            }
+            resolve(id);
+          });
         });
-      });
-      const nxtId = new Promise((resolve, reject) => {
-        Article.find({ updateDate: { $lt: collection.updateDate } }, '_id', { sort: { updateDate: -1 }, limit: 1 }, (err, nxtDoc) => {
-          if (err) reject(err);
-          let id = '';
-          if (nxtDoc.length > 0) {
-            id = nxtDoc[0]._id;
-          }
-          resolve(id);
+        const nxtId = new Promise((resolve, reject) => {
+          Article.find({ updateDate: { $lt: doc.updateDate } }, '_id', { sort: { updateDate: -1 }, limit: 1 }, (err, nxtDoc) => {
+            if (err) reject(err);
+            let id = '';
+            if (nxtDoc.length > 0) {
+              id = nxtDoc[0]._id;
+            }
+            resolve(id);
+          });
         });
-      });
-      Promise.all([preId, nxtId]).then(result => {
-        res.send({
-          code: 0,
-          msg: '查询文章详细信息成功',
-          data: {
-            articleData: collection,
-            preId: result[0],
-            nxtId: result[1]
-          }
+        Promise.all([preId, nxtId]).then(result => {
+          res.send({
+            code: 0,
+            msg: '查询文章详细信息成功',
+            data: {
+              articleData: collection,
+              preId: result[0],
+              nxtId: result[1]
+            }
+          });
         });
       });
     }
