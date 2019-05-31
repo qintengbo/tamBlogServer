@@ -10,8 +10,7 @@ const VisitorSchema = new Schema({
   },
   avatar: { // 头像
     type: String,
-    default: '',
-    maxlength: 20
+    default: ''
   },
   email: { // 邮箱
     type: String,
