@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const CommentSchema = new Schema({
   articleId: { // 关联文章id
     type: Schema.Types.ObjectId,
-    ref: 'Article',
     required: true
   },
   createDate: { // 创建时间
@@ -23,6 +22,10 @@ const CommentSchema = new Schema({
     maxlength: 100
   },
   show: { // 是否展示
+    type: Boolean,
+    default: true
+  },
+  isMain: { // 是否主评论
     type: Boolean,
     default: true
   },

@@ -18,6 +18,7 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('trust proxy', true); // 设置请求ip获取位置
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -35,9 +36,11 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// mongoose设置
+mongoose.set('useFindAndModify', false);
 // 连接数据库
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbPath);
+mongoose.connect(config.dbPath, { useNewUrlParser: true });
 
 // error handler
 app.use(function(err, req, res, next) {

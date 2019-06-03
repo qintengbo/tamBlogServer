@@ -23,7 +23,7 @@ router.get('/articleList', (req, res) => {
   }
   // 查询数据总条数
   let total;
-  Article.find(params).count((err, count) => {
+  Article.find(params).countDocuments((err, count) => {
     if (err) throw err;
     total = count;
     Article.find(params, null, { 
@@ -43,7 +43,7 @@ router.get('/articleList', (req, res) => {
           msg: '获取文章列表成功',
           data: {
             list: doc,
-            total: total
+            total
           }
         });
       });
