@@ -9,10 +9,6 @@ router.get('/articleList', (req, res) => {
     title: { $regex: req.query.keyWord || '' },
     status: 1
   };
-  // 判断是否有日期范围查询
-  if (req.query.date && req.query.date !== '') {
-    params.updateDate = { $gte: req.query.date[0], $lte: req.query.date[1] };
-  }
   // 判断是否有分类查询
   if (req.query.classification && req.query.classification !== 'null') {
     params.classification = req.query.classification;
