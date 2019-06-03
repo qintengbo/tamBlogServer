@@ -19,7 +19,7 @@ const CommentSchema = new Schema({
   content: { // 评论内容
     type: String,
     required: true,
-    maxlength: 100
+    maxlength: 1000
   },
   show: { // 是否展示
     type: Boolean,

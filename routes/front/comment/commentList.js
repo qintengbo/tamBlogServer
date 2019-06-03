@@ -20,7 +20,7 @@ router.get('/commentList', (req, res) => {
   });
   Promise.all([total, mainTotal]).then(result => {
     Comment.find({ articleId: req.query.articleId, isMain: true, show: true }, null, {
-      sort: { updateDate: -1 },
+      sort: { createDate: -1 },
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size)
     }, (err, collection) => {
