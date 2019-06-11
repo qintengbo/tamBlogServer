@@ -31,17 +31,34 @@ router.post('/addComment', (req, res) => {
   });
   
   addCommentFn = (id, param) => {
-    const { content, articleId } = param;
-    const commentData = {
-      articleId,
-      content,
-      commenter: id
-    };
+    const { content, articleId, beCommenter, isMain, commentId } = param;
+    let commentData = {};
+    if (isMain) {
+      commentData = {
+        articleId,
+        content,
+        commenter: id,
+      };
+    } else {
+      commentData = {
+        articleId,
+        content,
+        commenter: id,
+        beCommenter,
+        isMain
+      };
+    }
     Comment.create(commentData, (err, doc) => {
       if (err) {
         return res.send({
           code: -1,
           msg: '回复失败'
+        });
+      }
+      // 如果是子评论则往主评论中添加
+      if (!isMain) { 
+        Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error, docs) => {
+          if (error) throw error;
         });
       }
       res.send({

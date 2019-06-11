@@ -26,7 +26,9 @@ router.get('/commentList', (req, res) => {
     }, (err, collection) => {
       if (err) throw err;
       let opts = [
-        { path: 'commenter', select: 'name avatar' }
+        { path: 'commenter', select: 'name avatar' },
+        { path: 'beCommenter', select: 'name' },
+        { path: 'reply', populate: [{ path: 'commenter', select: 'name avatar' }, { path: 'beCommenter', select: 'name' }] }
       ];
       Comment.populate(collection, opts, (err, doc) => {
         if (err) throw err;
