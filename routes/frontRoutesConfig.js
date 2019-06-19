@@ -8,6 +8,7 @@ const routes = [
   require('./front/comment/commentList'), // 评论列表接口
   require('./front/classification/classificationList'), // 查询分类列表接口
   require('./front/article/articleInfo'), // 文章详情接口
+  require('./front/common/captcha'), // 图片验证码接口
 ];
 
 module.exports = (app) => {

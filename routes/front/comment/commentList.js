@@ -6,20 +6,20 @@ const Comment = require('../../../models/comment');
 router.get('/commentList', (req, res) => {
   // 查询评论总数
   const total = new Promise((resolve, reject) => {
-    Comment.find({ articleId: req.query.articleId, show: true }).countDocuments((err, count) => {
+    Comment.find({ relationId: req.query.relationId, show: true }).countDocuments((err, count) => {
       if (err) reject(err);
       resolve(count);
     });
   });
   // 查询主评论总数
   const mainTotal = new Promise((resolve, reject) => {
-    Comment.find({ articleId: req.query.articleId, isMain: true, show: true }).countDocuments((err, count) => {
+    Comment.find({ relationId: req.query.relationId, isMain: true, show: true }).countDocuments((err, count) => {
       if (err) reject(err);
       resolve(count);
     });
   });
   Promise.all([total, mainTotal]).then(result => {
-    Comment.find({ articleId: req.query.articleId, isMain: true, show: true }, null, {
+    Comment.find({ relationId: req.query.relationId, isMain: true, show: true }, null, {
       sort: { createDate: -1 },
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size)

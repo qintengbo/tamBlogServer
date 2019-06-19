@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 // 评论集合字段
 const CommentSchema = new Schema({
-  articleId: { // 关联文章id
-    type: Schema.Types.ObjectId,
+  relationId: { // 关联对象id
+    type: String,
     required: true
   },
   createDate: { // 创建时间

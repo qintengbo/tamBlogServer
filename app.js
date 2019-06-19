@@ -6,6 +6,7 @@ const logger = require('morgan'); // 命令行log显示
 const bodyParser = require('body-parser'); // 接收POST请求参数所用
 const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
+const session = require('express-session'); // express-session模块
 const config = require('./config/config'); // 全局配置
 const adminRoutes = require('./routes/adminRoutesConfig'); // 后台路由配置
 const frontRoutes = require('./routes/frontRoutesConfig'); // 前台路由配置
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); // 静态资源托管目录
 app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 app.use(passport.initialize()); // 初始化passport模块
+app.use(session(config.sessionConfig)); // 初始化express-session模块
 
 adminRoutes(app); // 后台路由引入
 frontRoutes(app); // 前台路由引入

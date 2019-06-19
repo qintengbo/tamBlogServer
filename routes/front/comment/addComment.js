@@ -5,6 +5,13 @@ const Visitor = require('../../../models/visitor');
 
 // 新增评论接口
 router.post('/addComment', (req, res) => {
+  // 判断验证码是否正确
+  if (req.body.imgCode !== req.session.captcha) {
+    return res.send({
+      code: -2,
+      msg: '验证码错误'
+    });
+  }
   // 保存评论前先保存评论者的信息
   Visitor.findOne({ email: req.body.email }, null, null, (err, collection) => {
     const { name, avatar, email } = req.body;
@@ -31,17 +38,17 @@ router.post('/addComment', (req, res) => {
   });
   
   addCommentFn = (id, param) => {
-    const { content, articleId, beCommenter, isMain, commentId } = param;
+    const { content, relationId, beCommenter, isMain, commentId } = param;
     let commentData = {};
     if (isMain) {
       commentData = {
-        articleId,
+        relationId,
         content,
         commenter: id,
       };
     } else {
       commentData = {
-        articleId,
+        relationId,
         content,
         commenter: id,
         beCommenter,
