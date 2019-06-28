@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const Comment = require('../../../models/comment');
 const Visitor = require('../../../models/visitor');
+const Article = require('../../../models/article');
 const sendMail = require('../../../services/sendMail');
 
 // 新增评论接口
@@ -42,7 +43,7 @@ router.post('/addComment', (req, res) => {
   });
   
   addCommentFn = (id, param) => {
-    const { content, relationId, beCommenter, isMain, commentId } = param;
+    const { content, relationId, beCommenter, isMain, commentId, name, aimsId } = param;
     let commentData = {};
     if (isMain) {
       commentData = {
@@ -66,17 +67,52 @@ router.post('/addComment', (req, res) => {
           msg: '回复失败'
         });
       }
-      // 如果是子评论则往主评论中添加
-      if (!isMain) { 
+      if (!isMain) {
+        // 如果是子评论则往主评论中添加 
         Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error, docs) => {
-          if (error) throw error;
+          if (error) throw error1;
         });
-        // 向被回复者发送邮件
-        const template = ejs.compile(fs.readFileSync(path.join(__dirname, '../../../views/email.ejs'), 'utf8'));
-        const html = template({});
-        Visitor.findOne({ _id: beCommenter }, null, null, (er, result) => {
-          if (er) throw er;
-          sendMail(result.email, '叮咚！你有一条新的回复消息', html);
+        // 查询被回复者详情
+        const beCommenterInfo = new Promise((resolve, reject) => {
+          Visitor.findOne({ _id: beCommenter }, null, null, (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+          });
+        });
+        // 查询文章详情
+        const articleInfo = new Promise((resolve, reject) => {
+          Article.findOne({ _id: relationId }, null, null, (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+          });
+        });
+        // 查询被评论详情
+        const commentInfo = new Promise((resolve, reject) => {
+          Comment.findOne({ _id: aimsId }, null, null, (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+          });
+        });
+        // 查询最新三篇文章
+        const articleList = new Promise((resolve, reject) => {
+          Article.find({ status: 1 }, null, { sort: { updateDate: -1 }, limit: 3 }, (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+          });
+        })
+        Promise.all([beCommenterInfo, articleInfo, commentInfo, articleList]).then(result => {
+          // 向被回复者发送邮件
+          const template = ejs.compile(fs.readFileSync(path.join(__dirname, '../../../views/email.ejs'), 'utf8'));
+          const html = template({
+            name: result[0].name,
+            replyName: name,
+            articleTitle: result[1].title,
+            original: result[2].content,
+            replyContent: content,
+            articleId: relationId,
+            articleList: result[3]
+          });
+          sendMail(result[0].email, '叮咚！你有一条新的回复消息', html);
         });
       }
       res.send({
