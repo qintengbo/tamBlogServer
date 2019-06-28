@@ -1,5 +1,4 @@
 const passport = require('passport');
-require('../config/passport')(passport);
 
 const routes = [
   require('./front/banner/bannerList'), // 轮播图列表接口

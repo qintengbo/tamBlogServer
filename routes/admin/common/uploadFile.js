@@ -4,7 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const bytes = require('bytes');
 const options = require('../../../config/qnyConfig').options;
-const uploadFile = require('../../../config/qnUploader');
+const uploadFile = require('../../../services/qnUploader');
 const path = require('path');
 
 // 设置文件保存位置

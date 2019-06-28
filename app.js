@@ -18,8 +18,8 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.set('trust proxy', true); // 设置请求ip获取位置
+app.set('view engine', 'ejs');
+app.set('trust proxy', true); // 设置请求ip获取点
 
 app.use(logger('dev'));
 app.use(express.json());

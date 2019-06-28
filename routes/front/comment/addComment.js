@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const ejs = require('ejs');
+const fs = require('fs');
+const path = require('path');
 const Comment = require('../../../models/comment');
 const Visitor = require('../../../models/visitor');
+const sendMail = require('../../../services/sendMail');
 
 // 新增评论接口
 router.post('/addComment', (req, res) => {
@@ -66,6 +70,13 @@ router.post('/addComment', (req, res) => {
       if (!isMain) { 
         Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error, docs) => {
           if (error) throw error;
+        });
+        // 向被回复者发送邮件
+        const template = ejs.compile(fs.readFileSync(path.join(__dirname, '../../../views/email.ejs'), 'utf8'));
+        const html = template({});
+        Visitor.findOne({ _id: beCommenter }, null, null, (er, result) => {
+          if (er) throw er;
+          sendMail(result.email, '叮咚！你有一条新的回复消息', html);
         });
       }
       res.send({

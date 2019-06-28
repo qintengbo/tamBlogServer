@@ -1,5 +1,5 @@
 const passport = require('passport');
-require('../config/passport')(passport);
+require('../services/passport')(passport);
 
 const routes = [
   require('./admin/user/login'), // 后台登录接口
