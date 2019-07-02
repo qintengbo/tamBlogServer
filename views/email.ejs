@@ -52,6 +52,18 @@
       display: block;
       margin: 13px 0;
     }
+
+    pre {
+      display: block;
+      padding: 10px;
+      margin: 0 0 10px;
+      color: #333;
+      background: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
   </style>
   <!--[if !mso]><!-->
   <style type="text/css">
@@ -323,9 +335,9 @@
                         <p>Hello！<span style="font-weight: 600"><%= name %></span> 同学：</p>
                         <p>您曾在我的网站（覃腾波的个人博客）上对《<%= articleTitle %>》一文的评论现在有了新的回复。</p>
                         <p>您的评论：</p>
-                        <p style="color: #222"><%= original %></p>
+                        <p style="color: #222"><%- original %></p>
                         <p><span style="font-weight: 600"><%= replyName %></span> 给您的回复如下：</p>
-                        <p style="color: #222"><%= replyContent %></p>
+                        <p style="color: #222"><%- replyContent %></p>
                       </div>
                     </td>
                   </tr>
@@ -452,13 +464,9 @@
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                         <tbody>
                           <tr>
-                            <td style="width:550px;"> <a href="https://chatbotsmagazine.com/nlp-and-the-coming-content-explosion-5ad45017f36f#.rr1g031tl" target="_blank">
-          
-      <img
-         height="auto" src="<%= articleList[i].coverImg %>" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="550"
-      />
-    
-        </a> </td>
+                            <td style="width:550px;position: relative;overflow: hidden;height: 180px"> 
+                              <img height="auto" src="<%= articleList[i].coverImg %>" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;position: absolute;top:0;left:0;right:0;bottom:0;margin:auto;" width="550"/>
+                            </td>
                           </tr>
                         </tbody>
                       </table>

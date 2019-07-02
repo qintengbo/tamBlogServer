@@ -3,6 +3,7 @@ const router = express.Router();
 const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
+const md = require('markdown-it')();
 const Comment = require('../../../models/comment');
 const Visitor = require('../../../models/visitor');
 const Article = require('../../../models/article');
@@ -103,12 +104,14 @@ router.post('/addComment', (req, res) => {
         Promise.all([beCommenterInfo, articleInfo, commentInfo, articleList]).then(result => {
           // 向被回复者发送邮件
           const template = ejs.compile(fs.readFileSync(path.join(__dirname, '../../../views/email.ejs'), 'utf8'));
+          const mdDoc = md.render(result[2].content);
+          const mdReplyDoc = md.render(content);
           const html = template({
             name: result[0].name,
             replyName: name,
             articleTitle: result[1].title,
-            original: result[2].content,
-            replyContent: content,
+            original: mdDoc,
+            replyContent: mdReplyDoc,
             articleId: relationId,
             articleList: result[3]
           });
