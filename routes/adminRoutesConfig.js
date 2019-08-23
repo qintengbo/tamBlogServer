@@ -25,6 +25,12 @@ const routes = [
   require('./admin/banner/updateBanner'), // 更新轮播图状态接口
   require('./admin/banner/deleteBanner'), // 删除轮播图接口
   require('./admin/banner/detailBanner'), // 编辑轮播图接口
+  require('./admin/steppingPit/addSteppingPit'), // 新增踩坑接口
+  require('./admin/steppingPit/steppingPitInfo'), // 查询踩坑详情接口
+  require('./admin/steppingPit/steppingPitList'), // 查询踩坑列表接口
+  require('./admin/steppingPit/deleteSteppingPit'), // 删除踩坑接口
+  require('./admin/steppingPit/updateSteppingPit'), // 更新踩坑状态接口
+  require('./admin/steppingPit/detailSteppingPit'), // 编辑踩坑接口
 ];
 
 module.exports = (app) => {
