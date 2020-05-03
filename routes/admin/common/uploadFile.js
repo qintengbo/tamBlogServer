@@ -46,12 +46,13 @@ router.post('/uploadFile', (req, res) => {
           });
         } else {
           // 上传成功则删除本地文件
-          fs.unlinkSync(req.file.path);
+					fs.unlinkSync(req.file.path);
           res.send({
             code: 0,
             msg: '上传文件成功',
             data: {
-              imgUrl: 'http://cdn.qintengbo.com/' + body.key
+							// imgUrl: 'http://cdn.qintengbo.com/' + body.key
+							imgUrl: 'http://q9lkwjl1j.bkt.clouddn.com/' + body.key
             }
           });
         }
