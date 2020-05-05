@@ -42,7 +42,7 @@ app.use(function(req, res, next) {
 mongoose.set('useFindAndModify', false);
 // 连接数据库
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbPath, { useNewUrlParser: true });
+mongoose.connect(config.dbPath, { useNewUrlParser: true, useUnifiedTopology: true });
 // 连接成功
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connection open to ' + config.dbPath);
