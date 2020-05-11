@@ -20,7 +20,13 @@ router.get('/articleList', (req, res) => {
   // 查询数据总条数
   let total;
   Article.find(params).countDocuments((err, count) => {
-    if (err) throw err;
+    if (err) {
+			res.send({
+				code: -1,
+				msg: '获取文章列表失败'
+			});
+			return;
+		}
     total = count;
     Article.find(params, null, { 
       sort: { updateDate: -1 },

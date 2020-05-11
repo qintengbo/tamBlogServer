@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Comment = require('../../../models/comment');
 
-// 获取文章评论
+// 获取评论列表
 router.get('/commentList', (req, res) => {
   // 查询评论总数
   const total = new Promise((resolve, reject) => {
@@ -24,13 +24,29 @@ router.get('/commentList', (req, res) => {
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size)
     }, (err, collection) => {
+			// 增加子评论数量字段
+			const docList = collection.map(item => {
+				const { reply } = item;
+				const val = {
+					replyTotal: reply.length,
+					childPage: 1, // 子评论当前页数
+					...item._doc
+				}
+				return val;
+			});
       if (err) throw err;
-      let opts = [
+      const opts = [
         { path: 'commenter', select: 'name avatar' },
         { path: 'beCommenter', select: 'name' },
-        { path: 'reply', populate: [{ path: 'commenter', select: 'name avatar' }, { path: 'beCommenter', select: 'name' }] }
+        { 
+					path: 'reply', populate: [
+						{ path: 'commenter', select: 'name avatar' }, 
+						{ path: 'beCommenter', select: 'name' }
+					], 
+					options: { limit: 3 } 
+				}
       ];
-      Comment.populate(collection, opts, (err, doc) => {
+      Comment.populate(docList, opts, (err, doc) => {
         if (err) throw err;
         res.send({
           code: 0,

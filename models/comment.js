@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 // 评论集合字段
 const CommentSchema = new Schema({
   relationId: { // 关联对象id
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   createDate: { // 创建时间

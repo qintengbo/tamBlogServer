@@ -1,4 +1,3 @@
-const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy; // token验证模块
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');

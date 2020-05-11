@@ -22,7 +22,14 @@ router.post('/addComment', (req, res) => {
 		
 		// 保存评论前先保存评论者的信息
 		Visitor.findOne({ email: req.body.email }, null, null, (error, collection) => {
-			if (error) throw error;
+			if (error) {
+				const { message } = error;
+				return res.send({
+					code: -1,
+					msg: '回复失败',
+					error: message
+				});
+			}
 			const { name, avatar, email } = req.body;
 			if (collection) {
 				collection.name = name;
@@ -66,15 +73,36 @@ router.post('/addComment', (req, res) => {
 			}
 			Comment.create(commentData, (err, doc) => {
 				if (err) {
+					const { message } = err;
 					return res.send({
 						code: -1,
-						msg: '回复失败'
+						msg: '回复失败',
+						error: message
 					});
 				}
 				if (!isMain) {
 					// 如果是子评论则往主评论中添加 
 					Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error, docs) => {
-						if (error) throw error1;
+						if (error) {
+							const { message } = error;
+							return res.send({
+								code: -1,
+								msg: '回复失败',
+								error: message
+							});
+						}
+						const opts = [
+							{ path: 'commenter', select: 'name avatar' },
+							{ path: 'beCommenter', select: 'name' }
+						];
+						Comment.populate(doc, opts, (er, popDoc) => {
+							if (er) throw er;
+							res.send({
+								code: 0,
+								data: popDoc,
+								msg: '回复成功'
+							});
+						});
 					});
 					// 查询被回复者详情
 					const beCommenterInfo = new Promise((resolve, reject) => {
@@ -120,11 +148,22 @@ router.post('/addComment', (req, res) => {
 						});
 						sendMail(result[0].email, '叮咚！你有一条新的回复消息', html);
 					});
+				} else {
+					Comment.populate(doc, { path: 'commenter', select: 'name avatar' }, (er, popDoc) => {
+						if (er) throw er;
+						// 主评论则初始化子评论页数与子评论总数
+						const newDoc = {
+							replyTotal: 0,
+							childPage: 1,
+							...popDoc._doc
+						};
+						res.send({
+							code: 0,
+							data: newDoc,
+							msg: '回复成功'
+						});
+					});
 				}
-				res.send({
-					code: 0,
-					msg: '回复成功'
-				});
 			});
 		}
 	} else {

@@ -25,6 +25,8 @@ supervisor app.js  // 启动项目，需要先安装supervisor
 └── package.json
 ```
 
+> 由于安全原因，本仓库未上传 config 文件夹里的 `config.js` 和 `qnyConfig.js` 两个文件, 如果需要，可以发邮件到 `qintb@qintengbo.com`，我会第一时间发给你。
+
 ## 文档资源
 
 NodeJs官方文档：[http://nodejs.cn/api/](http://nodejs.cn/api/)

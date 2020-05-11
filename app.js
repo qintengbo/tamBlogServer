@@ -7,20 +7,18 @@ const bodyParser = require('body-parser'); // 接收POST请求参数所用
 const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
 const session = require('express-session'); // express-session模块
+const helmet = require('helmet'); // 提高应用安全性
 const config = require('./config/config'); // 全局配置
 const adminRoutes = require('./routes/adminRoutesConfig'); // 后台路由配置
 const frontRoutes = require('./routes/frontRoutesConfig'); // 前台路由配置
 
 // 端口设置
+// 注：发布生产前要设置NODE_ENV=production，具体可见http://expressjs.com/zh-cn/advanced/best-practice-performance.html
 let port = process.env.PORT || 3000;
 
 const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.set('trust proxy', true); // 设置请求ip获取点
-
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,6 +27,11 @@ app.use(express.static(path.join(__dirname, 'public'))); // 静态资源托管�
 app.use(bodyParser.json()); // 解析POST请求携带的参数为JSON格式
 app.use(passport.initialize()); // 初始化passport模块
 app.use(session(config.sessionConfig)); // 初始化express-session模块
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('trust proxy', true); // 设置请求ip获取点
 
 adminRoutes(app); // 后台路由引入
 frontRoutes(app); // 前台路由引入
@@ -58,7 +61,7 @@ mongoose.connection.on('disconnected', () => {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+	// set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
