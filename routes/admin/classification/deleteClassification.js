@@ -8,7 +8,7 @@ router.delete('/deleteClassification', (req, res) => {
     if (err) throw err;
     // 只能删除文章数不为0的分类
     if (collection.articleNum === 0) {
-      Classification.remove({ _id: req.query.id }, err => {
+      Classification.deleteOne({ _id: req.query.id }, err => {
         if (err) {
           res.send({
             code: -1,

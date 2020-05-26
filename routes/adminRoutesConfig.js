@@ -24,7 +24,9 @@ const routes = [
   require('./admin/banner/bannerList'), // 查询轮播图列表接口
   require('./admin/banner/updateBanner'), // 更新轮播图状态接口
   require('./admin/banner/deleteBanner'), // 删除轮播图接口
-  require('./admin/banner/detailBanner'), // 编辑轮播图接口
+	require('./admin/banner/detailBanner'), // 编辑轮播图接口
+	require('./admin/comment/commentList'), // 查询评论列表接口
+	require('./admin/comment/updateComment'), // 更改评论接口
 ];
 
 module.exports = (app) => {

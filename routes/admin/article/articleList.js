@@ -6,11 +6,11 @@ const Article = require('../../../models/article');
 router.get('/articleList', (req, res) => {
   // 查询数据库条件
   let params = {
-    title: { $regex: req.query.keyWord },
+    title: { $regex: req.query.keyWord, $options: 'i' },
     status: req.query.status === '0' ? { $gt: 0 } : Number(req.query.status),
   };
   // 判断是否有日期范围查询
-  if (req.query.date !== '') {
+  if (req.query.date) {
     params.updateDate = { $gte: req.query.date[0], $lte: req.query.date[1] };
   }
   // 判断是否有分类查询
@@ -34,7 +34,7 @@ router.get('/articleList', (req, res) => {
   }
   // 查询数据总条数
   let total;
-  Article.find(params).count((err, count) => {
+  Article.find(params).countDocuments((err, count) => {
     if (err) throw err;
     total = count;
     // 查询时按时间先后顺序排序

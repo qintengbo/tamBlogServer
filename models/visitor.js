@@ -19,7 +19,11 @@ const VisitorSchema = new Schema({
   visIp: { // ip地址
     type: String,
     required: true
-  }
+	},
+	isAuthor: { // 是否作者
+		type: Boolean,
+		default: false
+	}
 });
 
 module.exports = mongoose.model('Visitor', VisitorSchema);

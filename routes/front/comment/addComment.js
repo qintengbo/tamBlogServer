@@ -31,10 +31,11 @@ router.post('/addComment', (req, res) => {
 				});
 			}
 			const { name, avatar, email } = req.body;
+			const ip = req.ip.replace('::ffff:', '');
 			if (collection) {
 				collection.name = name;
 				collection.avatar = avatar;
-				collection.visIp = req.ip;
+				collection.visIp = ip;
 				collection.save((err, doc) => {
 					if (err) throw err;
 					addCommentFn(doc._id, req.body);
@@ -44,7 +45,7 @@ router.post('/addComment', (req, res) => {
 					name,
 					avatar,
 					email,
-					visIp: req.ip
+					visIp: ip
 				});
 				newVisitor.save((err, doc) => {
 					if (err) throw err;
