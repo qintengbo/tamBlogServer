@@ -17,8 +17,8 @@ const VisitorSchema = new Schema({
     required: true
   },
   visIp: { // ip地址
-    type: String,
-    required: true
+		type: String,
+		default: ''
 	},
 	isAuthor: { // 是否作者
 		type: Boolean,

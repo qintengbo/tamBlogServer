@@ -4,7 +4,7 @@ const Article = require('../../../models/article');
 
 // 新增文章接口
 router.post('/addArticle', (req, res) => {
-  Article.create(req.body, (err, collection) => {
+  Article.create(req.body, err => {
     if (err) {
       return res.send({
         code: -1,

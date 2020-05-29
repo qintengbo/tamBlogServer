@@ -7,6 +7,12 @@ const config = require('../config/config');
 module.exports = function(passport) {
   passport.use(new Strategy(
     function(token, done) {
+			if (!token) {
+				return done(null, {
+					code: -90,
+					msg: '请先登录'
+				});
+			}
       User.findOne({ token: token }, function(err, user) {
         if (err) {
           return done(err);
@@ -14,16 +20,16 @@ module.exports = function(passport) {
         // 若数据库无法查询到token,则用户不存在
         if (!user) {
           return done(null, {
-            code: -2,
+            code: -100,
             msg: '账号不存在，请先登录'
           });
         } else {
           // 判断token是否已过有效期
           jwt.verify(token, config.secret, (err, decoded) => {
+						if (err) throw err;
             if (!decoded) {
               return done(null, {
-                code: -3,
-                expired: true,
+                code: -110,
                 msg: '账号已过期，请重新登录'
               });
             } else {

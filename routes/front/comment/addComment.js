@@ -8,6 +8,7 @@ const Comment = require('../../../models/comment');
 const Visitor = require('../../../models/visitor');
 const Article = require('../../../models/article');
 const sendMail = require('../../../services/sendMail');
+const config = require('./../../../config/config');
 
 // 新增评论接口
 router.post('/addComment', (req, res) => {
@@ -19,7 +20,20 @@ router.post('/addComment', (req, res) => {
 				msg: '验证码错误'
 			});
 		}
-		
+		// 判断是否是作者邮箱和姓名
+		const { userInfo: { name, email } } = config;
+		if (req.body.email === email) {
+			return res.send({
+				code: -3,
+				msg: '邮箱不能填写作者邮箱'
+			});
+		}
+		if (req.body.name.includes(name)) {
+			return res.send({
+				code: -3,
+				msg: '昵称不能填写作者姓名'
+			});
+		}
 		// 保存评论前先保存评论者的信息
 		Visitor.findOne({ email: req.body.email }, null, null, (error, collection) => {
 			if (error) {
@@ -37,7 +51,14 @@ router.post('/addComment', (req, res) => {
 				collection.avatar = avatar;
 				collection.visIp = ip;
 				collection.save((err, doc) => {
-					if (err) throw err;
+					if (err) {
+						const { message } = err;
+						return res.send({
+							code: -1,
+							msg: '回复失败',
+							error: message
+						});
+					}
 					addCommentFn(doc._id, req.body);
 				});
 			} else {
@@ -48,7 +69,14 @@ router.post('/addComment', (req, res) => {
 					visIp: ip
 				});
 				newVisitor.save((err, doc) => {
-					if (err) throw err;
+					if (err) {
+						const { message } = err;
+						return res.send({
+							code: -1,
+							msg: '回复失败',
+							error: message
+						});
+					}
 					addCommentFn(doc._id, req.body);
 				});
 			}

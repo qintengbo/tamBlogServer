@@ -12,7 +12,11 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  token: String
+	token: String,
+	userInfo: {
+		type: Schema.Types.ObjectId,
+    ref: 'Visitor'
+	}
 });
 
 // 添加用户保存时对password进行bcrypt加密

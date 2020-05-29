@@ -5,7 +5,7 @@ const config = require('../../../config/config');
 const User = require('../../../models/user');
 
 // 登录接口
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
   User.findOne({
     username: req.body.username
   }, (err, collection) => {
