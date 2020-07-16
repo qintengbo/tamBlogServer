@@ -24,16 +24,6 @@ router.get('/commentList', (req, res) => {
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size)
     }, (err, collection) => {
-			// 增加子评论数量字段
-			const docList = collection.map(item => {
-				const { reply } = item;
-				const val = {
-					replyTotal: reply.length,
-					childPage: 1, // 子评论当前页数
-					...item._doc
-				}
-				return val;
-			});
       if (err) throw err;
       const opts = [
         { path: 'commenter', select: 'name avatar' },
@@ -42,17 +32,29 @@ router.get('/commentList', (req, res) => {
 					path: 'reply', populate: [
 						{ path: 'commenter', select: 'name avatar' }, 
 						{ path: 'beCommenter', select: 'name' }
-					], 
-					options: { limit: 3 } 
+          ],
+          match: { show: true }, 
 				}
       ];
-      Comment.populate(docList, opts, (err, doc) => {
+      Comment.populate(collection, opts, (err, doc) => {
         if (err) throw err;
+        // 增加子评论数量字段
+        const docList = doc.map(item => {
+          const { reply } = item;
+          const list = JSON.parse(JSON.stringify(reply));
+          const val = {
+            ...item._doc,
+            replyTotal: reply.length,
+            childPage: 1, // 子评论当前页数
+            reply: reply.length > 3 ? list.slice(0, 3) : list,
+          }
+          return val;
+        });
         res.send({
           code: 0,
           msg: '获取文章评论成功',
           data: {
-            list: doc,
+            list: docList,
             total: result[0],
             mainTotal: result[1]
           }

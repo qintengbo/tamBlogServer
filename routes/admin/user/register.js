@@ -6,7 +6,7 @@ const config = require('./../../../config/config');
 
 // 注册账号
 router.post('/signup', (req, res) => {
-	const { body: { username, password }, ip } = req;
+	const { body: { username, password } } = req;
   if (!username) {
     return res.send({
       code: -1,
@@ -23,7 +23,8 @@ router.post('/signup', (req, res) => {
 	const { userInfo: { name, email } } = config;
 	const newVisitor = new Visitor({
 		name,
-		email,
+    email,
+    visIp: '0.0.0.0',
 		isAuthor: true
 	});
 	newVisitor.save((err, doc) => {

@@ -27,7 +27,8 @@ const routes = [
   require('./admin/banner/deleteBanner'), // 删除轮播图接口
 	require('./admin/banner/detailBanner'), // 编辑轮播图接口
 	require('./admin/comment/commentList'), // 查询评论列表接口
-	require('./admin/comment/updateComment'), // 更改评论接口
+  require('./admin/comment/updateComment'), // 更改评论接口
+  require('./admin/comment/addComment'), // 新增评论接口
 ];
 
 module.exports = (app) => {

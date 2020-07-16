@@ -2,7 +2,7 @@
  * @Author       : qintengbo
  * @Date         : 2020-05-08 17:27:47
  * @LastEditors  : qintengbo
- * @LastEditTime : 2020-05-11 20:07:24
+ * @LastEditTime : 2020-07-11 15:15:21
  * @Description  : 子评论列表接口，用于加载更多子评论
  */
 const express = require('express');
@@ -25,7 +25,8 @@ router.get('/childCommentList', (req, res) => {
 			populate: [
 				{ path: 'commenter', select: 'name avatar' }, 
 				{ path: 'beCommenter', select: 'name' }
-			], 
+      ], 
+      match: { show: true },
 			options: { 
 				skip: Number(skipNum),
 			} 

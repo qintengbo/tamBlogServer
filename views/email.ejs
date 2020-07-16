@@ -54,6 +54,10 @@
       margin: 13px 0;
     }
 
+    a, a:link, a:visited {
+      color: #42b983;
+    }
+
     div[name="markdown"] pre {
 			display: block;
       padding: 1rem;
@@ -395,7 +399,7 @@
 											<td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 												<div style="font-family:Helvetica, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
 													<p>Hello！<span style="font-weight: 600"><%= name %></span> 同学：</p>
-													<p>您曾在我的个人博客上对《<%= articleTitle %>》一文的评论现在有了新的回复。</p>
+													<p>您曾在<a href="https://www.qintengbo.com" style="color: #42b983; text-decoration: none">覃腾波的个人博客</a>上对<a href="https://www.qintengbo.com/articleDetail/<%= articleId %>" style="color: #42b983; text-decoration: none;">《<%= articleTitle %>》</a>一文的评论现在有了新的回复。</p>
 													<p style="margin-top: 24px;">您的评论：</p>
 													<div name="markdown" style="border: 1px dashed #ddd; border-radius: 6px; padding: 10px 20px;">
 													<%- original %>
@@ -409,7 +413,7 @@
 										</tr>
 										<tr>
 											<td align="left" style="font-size:0px;padding:10px 25px;padding-bottom:10px;word-break:break-word;">
-												<div style="font-family:Helvetica, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;"> 您可以点击<a href="https://www.qintengbo.com/articleDetail/<%= articleId %>" style="color: #42b983; text-decoration: none">查看回复的完整内容</a>，欢迎常来<a href="https://www.qintengbo.com" style="color: #42b983; text-decoration: none">博客</a>做客！ </div>
+												<div style="font-family:Helvetica, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;"> 您可以点击<a href="https://www.qintengbo.com/articleDetail/<%= articleId %>" style="color: #42b983; text-decoration: none">查看文章完整的评论内容</a>，欢迎常来博客做客！ </div>
 											</td>
 										</tr>
 										<tr>

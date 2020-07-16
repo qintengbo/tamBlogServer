@@ -31,7 +31,7 @@ router.post('/addComment', (req, res) => {
 		if (req.body.name.includes(name)) {
 			return res.send({
 				code: -3,
-				msg: '昵称不能填写作者姓名'
+				msg: '昵称不能包含作者姓名'
 			});
 		}
 		// 保存评论前先保存评论者的信息
@@ -111,7 +111,7 @@ router.post('/addComment', (req, res) => {
 				}
 				if (!isMain) {
 					// 如果是子评论则往主评论中添加 
-					Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error, docs) => {
+					Comment.findOneAndUpdate({ _id: commentId }, { $addToSet: { reply: doc._id } }, { new: true }, (error) => {
 						if (error) {
 							const { message } = error;
 							return res.send({
