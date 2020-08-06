@@ -5,6 +5,7 @@ const multer = require('multer');
 const bytes = require('bytes');
 const options = require('../../../config/qnyConfig').options;
 const uploadFile = require('../../../services/qnUploader');
+const qiniuConfig = require('../../../config/qnyConfig');
 const path = require('path');
 
 // 设置文件保存位置
@@ -54,8 +55,7 @@ router.post('/uploadFile', (req, res) => {
 				      code: 0,
 				      msg: '上传图片成功',
 				      data: {
-								// imgUrl: 'http://cdn.qintengbo.com/' + body.key
-								imgUrl: 'http://q9lkwjl1j.bkt.clouddn.com/' + body.key
+								imgUrl: qiniuConfig.options.url + body.key
 				      }
 				    });
 				  }

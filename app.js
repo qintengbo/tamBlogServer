@@ -8,17 +8,18 @@ const mongoose = require('mongoose');
 const passport = require('passport'); // 用户认证模块
 const session = require('express-session'); // express-session模块
 const helmet = require('helmet'); // 提高应用安全性
+const comprsession = require('compression'); // 使用gzip压缩
 const config = require('./config/config'); // 全局配置
 const adminRoutes = require('./routes/adminRoutesConfig'); // 后台路由配置
 const frontRoutes = require('./routes/frontRoutesConfig'); // 前台路由配置
 
 // 端口设置
-// 注：发布生产前要设置NODE_ENV=production，具体可见http://expressjs.com/zh-cn/advanced/best-practice-performance.html
 let port = process.env.PORT || 3000;
 
 const app = express();
 
 app.use(helmet());
+app.use(comprsession());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
