@@ -51,7 +51,7 @@ router.post('/uploadFile', (req, res) => {
 				  } else {
 				    // 上传成功则删除本地文件
 						fs.unlinkSync(req.file.path);
-				    res.send({
+				    res.send({  
 				      code: 0,
 				      msg: '上传图片成功',
 				      data: {
