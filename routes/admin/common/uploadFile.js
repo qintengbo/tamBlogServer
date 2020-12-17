@@ -5,10 +5,13 @@ const multer = require('multer');
 const bytes = require('bytes');
 const options = require('../../../config/qnyConfig').options;
 const uploadFile = require('../../../services/qnUploader');
+const upyunUploadFile = require('../../../services/upyunUploader');
+const config = require('../../../config/config');
 const qiniuConfig = require('../../../config/qnyConfig');
+const upyunConfig = require('../../../config/upyunConfig');
 const path = require('path');
 
-// 设置文件保存位置
+// 设置文件临时保存位置
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../../../public/tmp'));
@@ -38,28 +41,53 @@ router.post('/uploadFile', (req, res) => {
 			let type = req.file.mimetype.slice(req.file.mimetype.lastIndexOf('/') + 1);
 			const isImg = 'jpg,png,jpeg,gif'.indexOf(type) !== -1;
 			if (isImg) {
-				let params = {};
-				params.scope = options.scope + ':' + req.file.filename;
-				params.deadline = options.deadline + Date.now();
-				// 上传文件到七牛云
-				uploadFile(params, req.file.filename, req.file.path, (err, body, info) => {
-				  if (err) {
-				    res.send({
-				      code: -2,
-				      msg: '上传图片到七牛云失败'
-				    });
-				  } else {
-				    // 上传成功则删除本地文件
-						fs.unlinkSync(req.file.path);
-				    res.send({  
-				      code: 0,
-				      msg: '上传图片成功',
-				      data: {
-								imgUrl: qiniuConfig.options.url + body.key
-				      }
-				    });
-				  }
-				});
+        const { cloudStorage } = config;
+        // 根据云存储设置选择不同的上传方式
+        if (cloudStorage === 'qiniu') {
+          let params = {};
+          params.scope = options.scope + ':' + req.file.filename;
+          params.deadline = options.deadline + Date.now();
+          // 上传文件到七牛云
+          uploadFile(params, req.file.filename, req.file.path, (err, body) => {
+            if (err) {
+              res.send({
+                code: -2,
+                msg: '上传图片到七牛云失败'
+              });
+            } else {
+              // 上传成功则删除本地文件
+              fs.unlinkSync(req.file.path);
+              res.send({  
+                code: 0,
+                msg: '上传图片成功',
+                data: {
+                  imgUrl: qiniuConfig.options.url + body.key
+                }
+              });
+            }
+          });
+          return;
+        }
+        // 上传图片到又拍云
+        upyunUploadFile(req.file.filename, req.file.path).then(data => {
+          console.log(data)
+          if (!data) {
+            res.send({
+              code: -2,
+              msg: '上传图片到又拍云失败'
+            });
+          } else {
+            // 上传成功则删除本地文件
+            fs.unlinkSync(req.file.path);
+            res.send({  
+              code: 0,
+              msg: '上传图片成功',
+              data: {
+                imgUrl: `${upyunConfig.url}/${req.file.filename}`
+              }
+            });
+          }
+        });
 			} else {
 				// 文档类型文件则读取文件内容
 				fs.readFile(req.file.path, 'utf8', (error, data) => {
