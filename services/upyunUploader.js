@@ -12,10 +12,13 @@ module.exports = async function(filename, path) {
   const { bucket, operator, password } = upyunConfig;
   const service = new upyun.Service(bucket, operator, password);
   const client = new upyun.Client(service);
-  const data = await client.putFile(filename, fs.createReadStream(path));
-  console.log('data', data)
-  if (data) {
-    return true;
-  }
-  return false;
+  try {
+    const data = await client.putFile(filename, fs.createReadStream(path));
+    if (data) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+  } 
 }
