@@ -40,6 +40,4 @@ testem.log
 Thumbs.db
 
 # Config
-/config/qnyConfig.js
-/config/config.js
-/config/upyunConfig.js
+/config/*
