@@ -70,7 +70,6 @@ router.post('/uploadFile', (req, res) => {
         }
         // 上传图片到又拍云
         upyunUploadFile(req.file.filename, req.file.path).then(data => {
-          console.log(data)
           if (!data) {
             res.send({
               code: -2,
