@@ -1,8 +1,8 @@
 /*
  * @Author       : qintengbo
  * @Date         : 2020-05-26 18:09:59
- * @LastEditors  : qintengbo
- * @LastEditTime : 2020-09-07 09:48:06
+ * @LastEditors  : Please set LastEditors
+ * @LastEditTime : 2020-12-22 16:32:08
  * @Description  : 后台新增评论模块
  */ 
 const express = require('express');
@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const md = require('markdown-it')();
 const Comment = require('../../../models/comment');
-const Visitor = require('../../../models/visitor');
+const Commenter = require('../../../models/commenter');
 const Article = require('../../../models/article');
 const sendMail = require('../../../services/sendMail');
 const config = require('./../../../config/config');
@@ -89,7 +89,7 @@ router.post('/addComment', (req, res) => {
       });
       // 查询被回复者详情
       const beCommenterInfo = new Promise((resolve, reject) => {
-        Visitor.findOne({ _id: beCommenterId }, null, null, (error, result) => {
+        Commenter.findOne({ _id: beCommenterId }, null, null, (error, result) => {
           if (error) reject(error);
           resolve(result);
         });

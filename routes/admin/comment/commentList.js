@@ -1,15 +1,15 @@
 /*
  * @Author       : qintengbo
  * @Date         : 2020-05-13 15:21:07
- * @LastEditors  : qintengbo
- * @LastEditTime : 2020-05-22 14:36:43
+ * @LastEditors  : Please set LastEditors
+ * @LastEditTime : 2020-12-22 16:30:30
  * @Description  : 后台评论列表接口
  */
 const express = require('express');
 const router = express.Router();
 const Comment = require('../../../models/comment');
 const Article = require('../../../models/article');
-const Visitor = require('../../../models/visitor');
+const Commenter = require('../../../models/commenter');
 
 router.get('/commentList', async (req, res) => {
 	const { query: { page, size, status, date, commenterKey, titleKey } } = req;
@@ -60,7 +60,7 @@ router.get('/commentList', async (req, res) => {
 			]
 		};
 		const commenterArr = new Promise((resolve, reject) => {
-			Visitor.find(commenterOpt, '_id', (err, docs) => {
+			Commenter.find(commenterOpt, '_id', (err, docs) => {
 				if (err) reject(err);
 				const arr = [];
 				docs.forEach(item => {

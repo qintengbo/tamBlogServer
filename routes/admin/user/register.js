@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
-const Visitor = require('../../../models/visitor');
+const Commenter = require('../../../models/commenter');
 const config = require('./../../../config/config');
 
 // 注册账号
@@ -21,13 +21,13 @@ router.post('/signup', (req, res) => {
 	}
 	// 先保存个人信息
 	const { userInfo: { name, email } } = config;
-	const newVisitor = new Visitor({
+	const newCommenter = new Commenter({
 		name,
     email,
     visIp: '0.0.0.0',
 		isAuthor: true
 	});
-	newVisitor.save((err, doc) => {
+	newCommenter.save((err, doc) => {
 		if (err) {
 			const { message } = err;
 			return res.send({

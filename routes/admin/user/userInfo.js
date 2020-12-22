@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Visitor = require('./../../../models/visitor');
+const Commenter = require('./../../../models/commenter');
 
 // 获取用户信息
 router.get('/userInfo', (req, res) => {
@@ -11,7 +11,7 @@ router.get('/userInfo', (req, res) => {
 		});
 	}
 	const { user: { username, userInfo } } = req;
-	Visitor.findById(userInfo, (err, doc) => {
+	Commenter.findById(userInfo, (err, doc) => {
 		if (err) {
 			const { message } = err;
 			return res.send({

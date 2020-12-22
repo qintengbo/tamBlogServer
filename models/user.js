@@ -15,7 +15,7 @@ const UserSchema = new Schema({
 	token: String,
 	userInfo: {
 		type: Schema.Types.ObjectId,
-    ref: 'Visitor'
+    ref: 'Commenter'
 	}
 });
 

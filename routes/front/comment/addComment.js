@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const md = require('markdown-it')();
 const Comment = require('../../../models/comment');
-const Visitor = require('../../../models/visitor');
+const Commenter = require('../../../models/commenter');
 const Article = require('../../../models/article');
 const sendMail = require('../../../services/sendMail');
 const config = require('./../../../config/config');
@@ -35,7 +35,7 @@ router.post('/addComment', (req, res) => {
 			});
 		}
 		// 保存评论前先保存评论者的信息
-		Visitor.findOne({ email: req.body.email }, null, null, (error, collection) => {
+		Commenter.findOne({ email: req.body.email }, null, null, (error, collection) => {
 			if (error) {
 				const { message } = error;
 				return res.send({
@@ -62,13 +62,13 @@ router.post('/addComment', (req, res) => {
 					addCommentFn(doc._id, req.body);
 				});
 			} else {
-				const newVisitor = new Visitor({
+				const newCommenter = new Commenter({
 					name,
 					avatar,
 					email,
 					visIp: ip
 				});
-				newVisitor.save((err, doc) => {
+				newCommenter.save((err, doc) => {
 					if (err) {
 						const { message } = err;
 						return res.send({
@@ -135,7 +135,7 @@ router.post('/addComment', (req, res) => {
 					});
 					// 查询被回复者详情
 					const beCommenterInfo = new Promise((resolve, reject) => {
-						Visitor.findOne({ _id: beCommenter }, null, null, (error, result) => {
+						Commenter.findOne({ _id: beCommenter }, null, null, (error, result) => {
 							if (error) reject(error);
 							resolve(result);
 						});

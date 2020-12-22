@@ -14,7 +14,7 @@ const CommentSchema = new Schema({
   },
   commenter: { // 评论者
     type: Schema.Types.ObjectId,
-    ref: 'Visitor',
+    ref: 'Commenter',
     required: true
   },
   content: { // 评论内容
@@ -32,7 +32,7 @@ const CommentSchema = new Schema({
   },
   beCommenter: { // 被评论者
     type: Schema.Types.ObjectId,
-    ref: 'Visitor'
+    ref: 'Commenter'
   },
   reply: [{ // 子评论
     type: Schema.Types.ObjectId,

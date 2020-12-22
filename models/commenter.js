@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// 访客集合字段
-const VisitorSchema = new Schema({
+// 评论人集合字段
+const CommenterSchema = new Schema({
   name: { // 名称
     type: String,
     required: true,
@@ -26,4 +26,4 @@ const VisitorSchema = new Schema({
 	}
 });
 
-module.exports = mongoose.model('Visitor', VisitorSchema);
+module.exports = mongoose.model('Commenter', CommenterSchema);
