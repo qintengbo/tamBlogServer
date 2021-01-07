@@ -13,7 +13,7 @@ const UserSchema = new Schema({
     required: true
   },
 	token: String,
-	userInfo: {
+	userInfo: { // 用户信息
 		type: Schema.Types.ObjectId,
     ref: 'Commenter'
 	}
