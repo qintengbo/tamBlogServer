@@ -29,7 +29,7 @@ router.get('/articleList', (req, res) => {
 		}
     total = count;
     Article.find(params, null, { 
-      sort: { updateDate: -1 },
+      sort: { createDate: -1 },
       skip: (Number(req.query.page) - 1) * Number(req.query.size), 
       limit: Number(req.query.size)
     }, (err, collection) => {

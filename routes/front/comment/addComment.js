@@ -156,7 +156,7 @@ router.post('/addComment', (req, res) => {
 					});
 					// 查询最新三篇文章
 					const articleList = new Promise((resolve, reject) => {
-						Article.find({ status: 1 }, null, { sort: { updateDate: -1 }, limit: 3 }, (error, result) => {
+						Article.find({ status: 1 }, null, { sort: { createDate: -1 }, limit: 3 }, (error, result) => {
 							if (error) reject(error);
 							resolve(result);
 						});

@@ -2,7 +2,7 @@
  * @Author       : qintengbo
  * @Date         : 2020-05-26 18:09:59
  * @LastEditors  : Please set LastEditors
- * @LastEditTime : 2020-12-22 16:32:08
+ * @LastEditTime : 2021-01-11 18:50:51
  * @Description  : 后台新增评论模块
  */ 
 const express = require('express');
@@ -110,7 +110,7 @@ router.post('/addComment', (req, res) => {
       });
       // 查询最新三篇文章
       const articleList = new Promise((resolve, reject) => {
-        Article.find({ status: 1 }, null, { sort: { updateDate: -1 }, limit: 3 }, (error, result) => {
+        Article.find({ status: 1 }, null, { sort: { createDate: -1 }, limit: 3 }, (error, result) => {
           if (error) reject(error);
           resolve(result);
         });

@@ -11,7 +11,7 @@ router.get('/articleList', (req, res) => {
   };
   // 判断是否有日期范围查询
   if (req.query.date) {
-    params.updateDate = { $gte: req.query.date[0], $lte: req.query.date[1] };
+    params.createDate = { $gte: req.query.date[0], $lte: req.query.date[1] };
   }
   // 判断是否有分类查询
   if (req.query.classification !== 'null') {
@@ -30,7 +30,7 @@ router.get('/articleList', (req, res) => {
       sort = { readNum: -1 };
     }
   } else {
-    sort = { updateDate: -1 };
+    sort = { createDate: -1 };
   }
   // 查询数据总条数
   let total;

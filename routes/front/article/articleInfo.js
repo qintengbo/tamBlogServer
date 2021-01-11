@@ -20,7 +20,7 @@ router.get('/articleInfo', (req, res) => {
         if (err) throw err;
         // 查询上一篇和下一篇文章id
         const preId = new Promise((resolve, reject) => {
-          Article.find({ updateDate: { $gt: doc.updateDate } }, '_id', { sort: { updateDate: 1 }, limit: 1 }, (err, preDoc) => {
+          Article.find({ createDate: { $gt: doc.createDate } }, '_id', { sort: { createDate: 1 }, limit: 1 }, (err, preDoc) => {
             if (err) reject(err);
             let id = '';
             if (preDoc.length > 0) {
@@ -30,7 +30,7 @@ router.get('/articleInfo', (req, res) => {
           });
         });
         const nxtId = new Promise((resolve, reject) => {
-          Article.find({ updateDate: { $lt: doc.updateDate } }, '_id', { sort: { updateDate: -1 }, limit: 1 }, (err, nxtDoc) => {
+          Article.find({ createDate: { $lt: doc.createDate } }, '_id', { sort: { createDate: -1 }, limit: 1 }, (err, nxtDoc) => {
             if (err) reject(err);
             let id = '';
             if (nxtDoc.length > 0) {
