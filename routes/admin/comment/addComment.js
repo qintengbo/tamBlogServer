@@ -1,10 +1,3 @@
-/*
- * @Author       : qintengbo
- * @Date         : 2020-05-26 18:09:59
- * @LastEditors  : Please set LastEditors
- * @LastEditTime : 2021-01-11 18:50:51
- * @Description  : 后台新增评论模块
- */ 
 const express = require('express');
 const router = express.Router();
 const ejs = require('ejs');

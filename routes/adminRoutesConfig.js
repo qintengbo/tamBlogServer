@@ -29,6 +29,7 @@ const routes = [
 	require('./admin/comment/commentList'), // 查询评论列表接口
   require('./admin/comment/updateComment'), // 更改评论接口
   require('./admin/comment/addComment'), // 新增评论接口
+  require('./admin/buriedPoint/count'), // 监控字段统计接口
 ];
 
 module.exports = (app) => {
